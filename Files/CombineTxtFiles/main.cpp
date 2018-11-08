@@ -45,8 +45,8 @@ void combineFiles(string inPath,string outPath){
 
 }
 int main(){
-    string filePath = "E:\\TaxiRaw\\18";
-    string outFile = "F:\\Taxi\\18\\18.txt";
+    string filePath = "C:\\Users\\scott\\Desktop\\Bus";
+    string outFile = "C:\\Users\\scott\\Desktop\\allBus.txt";
 
     combineFiles(filePath,outFile);
 
