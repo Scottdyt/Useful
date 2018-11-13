@@ -1,0 +1,183 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>无标题文档</title>
+
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #container {
+
+            clear: both;
+
+            height: 100%;
+
+            width: 100%;
+
+        }
+    </style>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=s9vYSVwPjtPFv00vuxKzoNxD"></script>
+
+    <script type="text/javascript">
+
+        BMap.Point.prototype.toString = function () {
+
+            return "当前的经度=" + this.lng + ",纬度=" + this.lat;
+
+        }
+
+        BMap.Pixel.prototype.toString = function () {
+
+            return "当前点坐标x=" + this.x + ",y=" + this.y;
+
+        }
+
+        var map;
+
+        function InitMap() {
+
+            map = new BMap.Map("container");
+
+            var point = new BMap.Point(104.06, 30.67);//成都的经纬度点
+
+            map.centerAndZoom(point, 12);
+
+            map.enableScrollWheelZoom();
+
+
+
+            var busLineSearchOptions = {
+
+                renderOptions: {
+
+                    map: map,
+
+                    panel: document.getElementById("result"),
+
+                    autoViewport: true,
+
+                },
+
+                onGetBusListComplete: function (rs) {
+
+                    alert("onGetBusListComplete");
+
+                    console.log("本次检索的关键字：" + rs.keyword);
+
+                    console.log("本次检索所在的城市：" + rs.city);
+
+                    console.log("百度地图的url：" + rs.moreResultsUrl);
+
+                    for (var i = 0; i < rs.getNumBusList(); i++) {
+
+                        var busListItem = rs.getBusListItem(i);
+
+                        console.log(busListItem);
+
+                        busLineSearch.getBusLine(busListItem);
+
+                    }
+
+                },
+
+                onGetBusLineComplete: function (busLine) {
+
+                    //alert("onGetBusLineComplete");
+
+                    console.log("线路名称:" + busLine.name);
+
+                    console.log("首班车时间:" + busLine.startTime);
+
+                    console.log("末班车时间:" + busLine.endTime);
+
+                    console.log("公交线路所属公司:" + busLine.company);
+
+                    console.log("本公交线路的站点个数:" + busLine.getNumBusStations());
+
+
+
+                    for (var i = 0; i < busLine.getNumBusStations(); i++) {
+
+                        var busStation = busLine.getBusStation(i);
+
+                        console.log("第" + (i + 1) + "个站点名称:" + busStation.name);
+
+                        console.log("第" + (i + 1) + "个站点的坐标:" + busStation.position);
+
+                    }
+
+                },
+
+                onGetBusListHtmlSet: function () {
+
+                    // alert("onGetBusListHtmlSet");
+
+                },
+
+                onGetBusLineHtmlSet: function () {
+
+                    // alert("onGetBusLineHtmlSet");
+
+                },
+
+                onPolylinesSet: function () {
+
+                    // alert("onPolylinesSet");
+
+                },
+
+                onMarkersSet: function () {
+
+                    // alert("onMarkersSet");
+
+                }
+
+            };
+
+            var busLineSearch = new BMap.BusLineSearch(map, busLineSearchOptions);
+
+            busLineSearch.getBusList("36路");
+
+
+
+            map.addEventListener("click", function (event) {
+
+                console.log(event.point);
+
+            });
+
+
+
+
+
+        }
+
+    </script>
+
+</head>
+
+
+
+<body onLoad="InitMap();">
+
+    <div id="container"></div>
+
+    <div id="result"></div>
+
+</body>
+
+</html>

@@ -10,5 +10,9 @@ file related codes
 
 ## Trajectory
 
-- `geocoding.py`
+- `GeoCoding`
   - using `baidu` and `gaode` API to get XY coordinate from location names
+- `CoordinateTransform`
+  - convert coordinate system (baidu/gaode/wgs86)
+- `BusLine`
+  - using `baidu` js api to get all bus line information
